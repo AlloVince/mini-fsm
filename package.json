@@ -1,0 +1,72 @@
+{
+  "name": "mini-fsm",
+  "version": "1.0.0",
+  "description": "A js/nodejs minimum Finite State Machine with fully ES6/ES7 support",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/AlloVince/mini-fsm.git"
+  },
+  "scripts": {
+    "pretest": "npm run build",
+    "prestart": "npm run build",
+    "prepublish": "rm -rf ./lib && npm run build",
+    "ava": "LOG_LEVEL=error NODE_ENV=test node ./node_modules/.bin/ava --verbose --serial",
+    "test": "nyc -a --reporter=lcov --reporter=text --reporter=html npm run ava",
+    "lint": "./node_modules/.bin/eslint src/",
+    "build": "babel -d lib/ src/"
+  },
+  "engines": {
+    "node": ">=4.6.2"
+  },
+  "keywords": [
+    "fsm",
+    "Finite State Machine"
+  ],
+  "main": "index.js",
+  "author": "AlloVince",
+  "ava": {
+    "files": [
+      "test/**/*.js",
+      "!test/bootstrap.js",
+      "!test/_*/**/*.js",
+      "!test/swagger/_*/**/*.js"
+    ],
+    "source": [
+      "src/**/*.js"
+    ],
+    "failFast": false,
+    "tap": false,
+    "require": [
+      "babel-core/register",
+      "babel-polyfill"
+    ],
+    "babel": "inherit"
+  },
+  "nyc": {
+    "require": [
+      "babel-core/register"
+    ],
+    "include": [
+      "src/**/*.js"
+    ]
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
+    "babel-eslint": "^7.0.0",
+    "babel-plugin-__coverage__": "^11.0.0",
+    "babel-preset-es2015-node4": "^2.1.0",
+    "babel-preset-stage-3": "^6.17.0",
+    "eslint": "^3.7.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0",
+    "nock": "^8.1.0",
+    "nyc": "^8.3.2"
+  }
+}
