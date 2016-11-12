@@ -1,4 +1,4 @@
-# mini-fsm - A js/nodejs minimum Finite State Machine (FSM)
+# mini-fsm - A js/NodeJs minimum Finite State Machine (FSM)
 
 
 [![NPM version](https://img.shields.io/npm/v/mini-fsm.svg?style=flat-square)](http://badge.fury.io/js/mini-fsm)
@@ -16,6 +16,8 @@
 
 
 ## Quick Start
+
+NodeJS version require >= v6
 
 In Node.js you can install mini-fsm with npm:
 

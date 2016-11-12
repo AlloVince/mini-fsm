@@ -7,7 +7,11 @@ export default class FiniteStateMachine {
     return {};
   }
 
-  async onTransition() {
+  async onTransition(from, to) {
+    return Promise.resolve({
+      from,
+      to
+    });
   }
 
   constructor(initialState) {
@@ -31,7 +35,7 @@ export default class FiniteStateMachine {
       throw new Error('No transitions defined');
     }
 
-    for (const [ rule, { from, to }] of rules) {
+    for (const [rule, { from, to }] of rules) {
       if (!from || !to) {
         throw new Error('Transition require a from state and a to state');
       }
@@ -60,7 +64,7 @@ export default class FiniteStateMachine {
   }
 
   checkState(state) {
-    return Object.keys(this.states).includes(state)
+    return Object.keys(this.states).includes(state);
   }
 
   do() {
@@ -70,10 +74,10 @@ export default class FiniteStateMachine {
 
     this.actions = new Proxy(this.transitions, {
       get: (target, action) => {
-        if (target.hasOwnProperty(action)) {
+        if ({}.hasOwnProperty.call(target, action)) {
           return () => {
             this.transition(target[action].to);
-          }
+          };
         }
         throw new Error(`Action ${action} not exists in transitions`);
       }
@@ -90,7 +94,10 @@ export default class FiniteStateMachine {
     const transitions = Object.values(this.transitions);
     const fromState = this.currentState;
     for (const { from, to } of transitions) {
-      if (to === toState && (from === fromState || Array.isArray(from) && from.includes(fromState))) {
+      if (
+        to === toState &&
+        (from === fromState || (Array.isArray(from) && from.includes(fromState)))
+      ) {
         this.currentState = toState;
         break;
       }
