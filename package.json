@@ -52,6 +52,7 @@
     ]
   },
   "dependencies": {
+    "babel-polyfill": "^6.16.0"
   },
   "devDependencies": {
     "ava": "^0.16.0",

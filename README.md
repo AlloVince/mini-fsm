@@ -1,5 +1,13 @@
 # mini-fsm - A js/nodejs minimum Finite State Machine (FSM)
 
+
+[![NPM version](https://img.shields.io/npm/v/mini-fsm.svg?style=flat-square)](http://badge.fury.io/js/mini-fsm)
+[![Build Status](https://travis-ci.org/AlloVince/mini-fsm.svg?branch=master)](https://travis-ci.org/AlloVince/mini-fsm)
+[![Dependencies Status](https://david-dm.org/AlloVince/mini-fsm.svg)](https://david-dm.org/AlloVince/mini-fsm)
+[![codecov](https://codecov.io/gh/AlloVince/mini-fsm/branch/master/graph/badge.svg)](https://codecov.io/gh/AlloVince/mini-fsm)
+[![npm](https://img.shields.io/npm/dm/AlloVince.svg?maxAge=2592000)](https://www.npmjs.com/package/mini-fsm)
+[![License](https://img.shields.io/npm/l/mini-fsm.svg?maxAge=2592000?style=plastic)](https://github.com/AlloVince/mini-fsm/blob/master/LICENSE)
+
 ## Features
 
 - Minimalism, just a single file without any dependency
@@ -65,7 +73,7 @@ const light = new TrafficLightFsm('green');
   try {
     await light.do().turnRed();
   } catch (e) {
-    console.error(e.message); //output ''
+    console.error(e.message); //output 'Error: Transition from green to red denied'
   }
 })();
 ```
