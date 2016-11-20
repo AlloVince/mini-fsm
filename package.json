@@ -1,6 +1,6 @@
 {
   "name": "mini-fsm",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A js/nodejs minimum Finite State Machine with fully ES6/ES7 support",
   "license": "MIT",
   "repository": {

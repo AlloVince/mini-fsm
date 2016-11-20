@@ -21,7 +21,7 @@ test('Initial parameters', async(t) => {
 
   class Bar extends FiniteStateMachine {
     get states() {
-      return { 'pending': {} }
+      return { pending: {} };
     }
   }
   try {
@@ -43,14 +43,14 @@ test('Initial parameters', async(t) => {
 test('Rule checking from & to', async(t) => {
   class Foo extends FiniteStateMachine {
     get states() {
-      return { 'pending': {} }
+      return { pending: {} };
     }
 
     get transitions() {
       return {
         approve: {}
-      }
-    };
+      };
+    }
   }
 
   try {
@@ -62,14 +62,14 @@ test('Rule checking from & to', async(t) => {
 
   class FromMissing extends FiniteStateMachine {
     get states() {
-      return { 'pending': {} }
+      return { pending: {} };
     }
 
     get transitions() {
       return {
         approve: { from: 'some', to: 'pending' }
-      }
-    };
+      };
+    }
   }
 
   try {
@@ -82,14 +82,14 @@ test('Rule checking from & to', async(t) => {
 
   class FromArrayMissing extends FiniteStateMachine {
     get states() {
-      return { 'pending': {} }
+      return { pending: {} };
     }
 
     get transitions() {
       return {
         approve: { from: ['some', 'pending'], to: 'pending' }
-      }
-    };
+      };
+    }
   }
 
   try {
@@ -102,14 +102,14 @@ test('Rule checking from & to', async(t) => {
 
   class ToMissing extends FiniteStateMachine {
     get states() {
-      return { 'pending': {} }
+      return { pending: {} };
     }
 
     get transitions() {
       return {
         approve: { from: 'pending', to: 'some' }
-      }
-    };
+      };
+    }
   }
 
   try {
@@ -123,14 +123,14 @@ test('Rule checking from & to', async(t) => {
 test('Rule checking final state', async(t) => {
   class Final extends FiniteStateMachine {
     get states() {
-      return { 'pending': { isFinal: true } }
+      return { pending: { isFinal: true } };
     }
 
     get transitions() {
       return {
         approve: { from: 'pending', to: 'pending' }
-      }
-    };
+      };
+    }
   }
 
   try {
@@ -142,14 +142,14 @@ test('Rule checking final state', async(t) => {
 
   class FinalInArray extends FiniteStateMachine {
     get states() {
-      return { 'pending': { isFinal: true } }
+      return { pending: { isFinal: true } };
     }
 
     get transitions() {
       return {
         approve: { from: ['pending'], to: 'pending' }
-      }
-    };
+      };
+    }
   }
 
   try {
@@ -165,18 +165,18 @@ test('Transition works', async(t) => {
   class OrderFsm extends FiniteStateMachine {
     get states() {
       return {
-        'pending': {},
-        'approved': {},
-        'canceled': {}
+        pending: {},
+        approved: {},
+        canceled: {}
       };
-    };
+    }
 
     get transitions() {
       return {
         approve: { from: 'pending', to: 'approved' },
         cancel: { from: ['approved'], to: 'canceled' },
-      }
-    };
+      };
+    }
   }
 
   const fsm = new OrderFsm('pending');
@@ -226,7 +226,7 @@ test('Callback works', async(t) => {
   class OrderFsm extends FiniteStateMachine {
     get states() {
       return {
-        'pending': {
+        pending: {
           onExit: (from, to, fsm) => {
             exitPending = true;
             t.is(from, 'pending');
@@ -234,7 +234,7 @@ test('Callback works', async(t) => {
             t.true(exitPending);
           }
         },
-        'approved': {
+        approved: {
           onEnter: async(from, to, fsm) => {
             enterApproved = true;
             t.is(from, 'pending');
@@ -249,19 +249,19 @@ test('Callback works', async(t) => {
             t.true(exitApproved);
           }
         },
-        'canceled': {}
+        canceled: {}
       };
-    };
+    }
 
     get transitions() {
       return {
         approve: { from: 'pending', to: 'approved' },
         cancel: { from: ['pending', 'approved'], to: 'canceled' },
-      }
-    };
+      };
+    }
 
     onTransition() {
-      count++;
+      count += 1;
     }
   }
 
@@ -275,5 +275,29 @@ test('Callback works', async(t) => {
   } catch (e) {
     t.true(e instanceof Error);
     t.regex(e.message, /Action \w+ not exists in transitions/);
+  }
+});
+
+test('Able to throw error in proxy', async(t) => {
+  class OrderFsm extends FiniteStateMachine {
+    get states() {
+      return {
+        pending: {},
+        approved: {}
+      };
+    }
+
+    get transitions() {
+      return {
+        approve: { from: 'pending', to: 'approved' }
+      };
+    }
+  }
+  const fsm = new OrderFsm('approved');
+  try {
+    await fsm.do().approve();
+  } catch (e) {
+    t.true(e instanceof Error);
+    t.regex(e.message, /denied/);
   }
 });

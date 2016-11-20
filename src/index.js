@@ -75,9 +75,8 @@ export default class FiniteStateMachine {
     this.actions = new Proxy(this.transitions, {
       get: (target, action) => {
         if ({}.hasOwnProperty.call(target, action)) {
-          return () => {
-            this.transition(target[action].to);
-          };
+          return async () =>
+            await this.transition(target[action].to);
         }
         throw new Error(`Action ${action} not exists in transitions`);
       }
